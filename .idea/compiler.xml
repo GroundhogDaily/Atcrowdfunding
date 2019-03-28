@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Atcrowdfunding-bean" />
+        <module name="Atcrowdfunding-common" />
+        <module name="Atcrowdfunding-main" />
+        <module name="Atcrowdfunding-manager-api" />
+        <module name="Atcrowdfunding-manager-impl" />
+        <module name="Atcrowdfunding-potal-api" />
+        <module name="Atcrowdfunding-potal-impl" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Atcrowdfunding-bean (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-common (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-main (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-manager-api (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-manager-impl (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-parent (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-potal-api (1) (com.atguigu.maven)" target="1.5" />
+      <module name="Atcrowdfunding-potal-impl (1) (com.atguigu.maven)" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
