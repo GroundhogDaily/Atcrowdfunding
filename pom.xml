@@ -17,8 +17,22 @@
         <module>Atcrowdfunding-common</module>
         <module>Atcrowdfunding-bean</module>
     </modules>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>servlet-api</artifactId>
@@ -34,7 +48,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>4.3.15.RELEASE</version>
+                <version>4.0.0.RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

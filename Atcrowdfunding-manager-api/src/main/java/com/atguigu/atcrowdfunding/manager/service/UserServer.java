@@ -2,6 +2,7 @@ package com.atguigu.atcrowdfunding.manager.service;
 
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 
 import java.util.Map;
 
@@ -76,4 +77,20 @@ public interface UserServer {
      * @return
      */
     Integer[] queryUserRole(Integer id);
+
+    /**
+     *添加用户角色关系
+     * @param userid
+     * @param data
+     * @return
+     */
+    int saveUserRoleRelationship(Integer userid, Data data);
+
+    /**
+     * 删除用户角色关系
+     * @param userid
+     * @param data
+     * @return
+     */
+    int deleteUserRoleRelationship(Integer userid, Data data);
 }

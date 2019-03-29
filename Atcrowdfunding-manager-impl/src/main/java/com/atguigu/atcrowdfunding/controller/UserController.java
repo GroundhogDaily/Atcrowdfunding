@@ -1,17 +1,21 @@
 package com.atguigu.atcrowdfunding.controller;
 
+import com.atguigu.atcrowdfunding.bean.Role;
 import com.atguigu.atcrowdfunding.bean.User;
 import com.atguigu.atcrowdfunding.manager.service.RoleService;
 import com.atguigu.atcrowdfunding.manager.service.UserServer;
 import com.atguigu.atcrowdfunding.util.AjaxResult;
 import com.atguigu.atcrowdfunding.util.Page;
 import com.atguigu.atcrowdfunding.util.StringUtil;
+import com.atguigu.atcrowdfunding.vo.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +57,37 @@ public class UserController {
         return "/user/index";
     }
 
+    @ResponseBody
+    @RequestMapping("/doAssignRole")
+    public Object doAssignRole(Integer userid,Data data ){
+        AjaxResult ajaxResult = new AjaxResult();
+
+        int count = userServer.saveUserRoleRelationship(userid, data);
+        if (count == 1) {
+            ajaxResult.setSuccess(true);
+        }else {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("保存失败");
+        }
+
+        return ajaxResult;
+    }
+    @ResponseBody
+    @RequestMapping("/doUnAssignRole")
+    public Object doUnAssignRole(Integer userid,Data data ){
+
+        AjaxResult ajaxResult = new AjaxResult();
+
+        int count = userServer.deleteUserRoleRelationship(userid, data);
+        if (count == 1) {
+            ajaxResult.setSuccess(true);
+        }else {
+            ajaxResult.setSuccess(false);
+            ajaxResult.setMessage("保存失败");
+        }
+
+        return ajaxResult;
+    }
     /**
      * 跳转到用户角色分配界面
      * @return
@@ -60,18 +95,20 @@ public class UserController {
     @RequestMapping("/toAssignRole")
     public String toAssignRole(Integer id,Map map){
 
+
+
         //根据用户ID查询关联Role的ID
         Integer[] roleId = userServer.queryUserRole(id);
-        List leftrole ;
-        List rightrole =null;
-        if(roleId.length>0){
-            //查询与用户关联的Role信息
-            rightrole = roleService.queryLRoleById(roleId);
-            //查询没有与用户关联的Role信息
-            leftrole = roleService.queryRoleNotId(roleId);
+        List<Role> roles = roleService.queryAll();
 
-        }else {
-            leftrole = roleService.queryAll();
+        List<Role> leftrole = new ArrayList<Role>();
+        List<Role> rightrole = new ArrayList<Role>();
+        for (Role role:roles) {
+            if (ArrayUtils.contains(roleId, role.getId())) {
+                rightrole.add(role);
+            }else {
+                leftrole.add(role);
+            }
         }
         map.put("leftrole", leftrole);
         map.put("rightrole", rightrole);

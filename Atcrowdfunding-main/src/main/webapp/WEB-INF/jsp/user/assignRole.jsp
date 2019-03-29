@@ -54,7 +54,7 @@
                     <form role="form" class="form-inline">
                         <div class="form-group">
                             <label for="leftRoleList">未分配角色列表</label><br>
-                            <select id="leftRoleList" class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
+                            <select id="leftRoleList" class="form-control" multiple size="10" style="width:200px;overflow-y:auto;">
                                 <c:forEach items="${leftrole}" var="role" >
                                     <option value="${role.id}">${role.name}</option>
                                 </c:forEach>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="form-group" style="margin-left:40px;">
                             <label for="rightRoleList">已分配角色列表</label><br>
-                            <select id="rightRoleList" class="form-control" multiple size="10" style="width:100px;overflow-y:auto;">
+                            <select id="rightRoleList" class="form-control" multiple size="10" style="width:200px;overflow-y:auto;">
                                 <c:forEach items="${rightrole}" var="role" >
                                     <option value="${role.id}">${role.name}</option>
                                 </c:forEach>
@@ -118,6 +118,7 @@
 <script src="${APP_PATH}/jquery/jquery-2.1.1.min.js"></script>
 <script src="${APP_PATH}/bootstrap/js/bootstrap.min.js"></script>
 <script src="${APP_PATH}/script/docs.min.js"></script>
+<script src="${APP_PATH}/jquery/layer/layer.js"></script>
 <script type="text/javascript">
     $(function () {
         $(".list-group-item").click(function(){
@@ -132,16 +133,74 @@
         });
     });
 
+    var loadingIndex = -1;
+    //分配角色
     $("#leftToRightBtn").click(function () {
         var selectedOptions = $("#leftRoleList option:selected");
+        var jsonobj = {
+            userid : "${param.id}"
+        };
+        $.each(selectedOptions,function (i,n) {
+            jsonobj["ids["+i+"]"] = this.value ;
+        });
 
-        $("#rightRoleList").append(selectedOptions);
+        $.ajax({
+            type : "POST",
+            data : jsonobj,
+                url : "${APP_PATH}/user/doAssignRole.do",
+            beforeSend : function() {
+                loadingIndex = layer.msg('处理中', {icon: 16});
+                return true;
+            },
+            success : function(result){
+                layer.close(loadingIndex);
+                if (result.success){
+                    $("#rightRoleList").append(selectedOptions);
+                }else {
+                    layer.msg(result.message, {time:1000, icon:5, shift:6});
+                }
+            },
+            error : function(){
+                layer.close(loadingIdex);
+                layer.msg("添加失败", {time:1000, icon:5, shift:6});
+            }
+
+        });
+
     });
 
     $("#rightToleftBtn").click(function () {
-
         var selectedOptions = $("#rightRoleList option:selected");
-        $("#leftRoleList").append(selectedOptions);
+        var jsonobj = {
+            userid : "${param.id}"
+        };
+        $.each(selectedOptions,function (i,n) {
+            jsonobj["ids["+i+"]"] = this.value ;
+        });
+
+        $.ajax({
+            type : "POST",
+            data : jsonobj,
+            url : "${APP_PATH}/user/doUnAssignRole.do",
+            beforeSend : function() {
+                loadingIndex = layer.msg('处理中', {icon: 16});
+                return true;
+            },
+            success : function(result){
+                layer.close(loadingIndex);
+                if (result.success){
+                    $("#leftRoleList").append(selectedOptions);
+                }else {
+                    layer.msg(result.message, {time:1000, icon:5, shift:6});
+                }
+            },
+            error : function(){
+                layer.close(loadingIdex);
+                layer.msg("添加失败", {time:1000, icon:5, shift:6});
+            }
+
+        });
+
     });
 </script>
 </body>

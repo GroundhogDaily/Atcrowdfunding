@@ -7,6 +7,7 @@ import com.atguigu.atcrowdfunding.manager.dao.UserRoleMapper;
 import com.atguigu.atcrowdfunding.manager.service.UserServer;
 import com.atguigu.atcrowdfunding.util.MD5Util;
 import com.atguigu.atcrowdfunding.util.Page;
+import com.atguigu.atcrowdfunding.vo.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,5 +102,14 @@ public class UserServerImpl implements UserServer {
 
         Integer[] roleId = userRoleMapper.selectByUserId(id);
         return roleId;
+    }
+
+    public int saveUserRoleRelationship(Integer userid, Data data) {
+
+        return userRoleMapper.saveUserRoleRelationship(userid,data);
+    }
+
+    public int deleteUserRoleRelationship(Integer userid, Data data) {
+        return userRoleMapper.deleteUserRoleRelationship(userid,data);
     }
 }
